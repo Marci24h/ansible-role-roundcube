@@ -1,5 +1,6 @@
 ---
 - name: Assert that required variables set
+  tags: roundcube,roundcube-preflight
   ansible.builtin.assert:
     that:
       - roundcube_mysql_password is defined and roundcube_mysql_password != ""
@@ -8,4 +9,33 @@
     success_msg: "roundcube_mysql_password and roundcube_des_key are set"
 
 - name: Populate service facts
+  tags: roundcube,roundcube-preflight
   ansible.builtin.service_facts:
+
+# - name: Ensure database user is present
+#   community.mysql.mysql_user:
+#     name: "{{ roundcube_mysql_user }}"
+#     password: "{{ roundcube_mysql_password }}"
+#     priv: "{{ roundcube_mysql_db }}.*:ALL,GRANT"
+#     state: present
+#     login_unix_socket: /run/mysqld/mysqld.sock
+#
+# - name: Ensure database is present
+#   community.mysql.mysql_db:
+#     name: "{{ roundcube_mysql_db }}"
+#     state: present
+#     encoding: "utf8"
+#     collation: "utf8_general_ci"
+#     login_unix_socket: /run/mysqld/mysqld.sock
+#   notify: Import database
+
+# - name: Ensure crontab is installed
+#   ansible.builtin.apt:
+#     pkg: "cron"
+#     state: present
+
+# Not sure if we need mcrypt because it so not listed in the REQUIREMENTS
+# https://github.com/roundcube/roundcubemail/blob/release-1.6/INSTALL
+# - name: Import mcrypt tasks
+#   ansible.builtin.import_tasks: mcrypt.yml
+#   when: ansible_distribution_major_version|int > 9

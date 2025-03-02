@@ -39,3 +39,20 @@ GPL
 ## Author Information
 
 https://www.systemli.org
+
+
+## Fork
+This is a fork of the nice role [systemli/ansible-role-roundcube](https://github.com/systemli/ansible-role-roundcube)
+The goal is to keep the role as simple as possible and use it on my webserver for our family members.
+
+The webserver is running multiple php versions and is set up using the following roles:
+* geerlingguy.php-versions
+* geerlingguy.mysql
+* geerlingguy.nginx
+
+These are some changes that have been made:
+* removed `mcrypt tasks` Not sure if we need mcrypt because it so not listed in the [REQUIREMENTS](https://github.com/roundcube/roundcubemail/blob/release-1.6/INSTALL)
+* removed getmail
+* replaced cronjob by systemd service & timer
+* managesieve config
+* added tags

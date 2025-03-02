@@ -1,0 +1,13 @@
+# ansible_managed
+# timer unit for roundcube-cleaning-jobs
+
+[Unit]
+Description=start roundcube cleaning
+Requires=roundcube-cleaning-jobs.service
+
+[Timer]
+Unit=roundcube-cleaning-jobs.service
+OnCalendar=*-*-* 06:10
+
+[Install]
+WantedBy=timers.target

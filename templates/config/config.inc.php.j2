@@ -22,14 +22,7 @@ $config = [];
 // Database connection string (DSN) for read+write operations
 // Format (compatible with PEAR MDB2): db_provider://user:password@host/database
 // Currently supported db_providers: mysql, pgsql, sqlite, mssql, sqlsrv, oracle
-// For examples see http://pear.php.net/manual/en/package.database.mdb2.intro-dsn.php
-// NOTE: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
-//       or (Windows): 'sqlite:///C:/full/path/to/sqlite.db'
 $config['db_dsnw'] = 'mysql://{{ roundcube_mysql_user }}:{{ roundcube_mysql_password }}@localhost/{{ roundcube_mysql_db }}';
-
-// IMAP host chosen to perform the log-in.
-// See defaults.inc.php for the option description.
-$config['imap_host'] = '{{ roundcube_imap_host }}';
 
 // ----------------------------------
 // LOGGING/DEBUGGING
@@ -37,25 +30,49 @@ $config['imap_host'] = '{{ roundcube_imap_host }}';
 
 // log driver:  'syslog', 'stdout' or 'file'.
 $config['log_driver'] = 'syslog';
+$config['log_date_format'] = 'Y-m-d H:i:s O';
 
 // Syslog ident string to use, if using the 'syslog' log driver.
 $config['syslog_id'] = 'roundcube';
 
+// $config['smtp_log'] = true;
+// $config['smtp_debug'] = false;
+// $config['imap_debug'] = false;
+
+// ----------------------------------
+// IMAP
+// ----------------------------------
+// IMAP host chosen to perform the log-in. See defaults.inc.php for the option description.
+$config['imap_host'] = '{{ roundcube_imap_host }}';
+
+//$config['imap_conn_options'] = [
+//  'ssl'         => [
+//     'verify_peer'  => true,
+//     'verify_depth' => 3,
+//     'cafile'       => '/etc/openssl/certs/ca.crt',
+//   ],
+// ];
+
+
 // ----------------------------------
 // SMTP
 // ----------------------------------
-
 // SMTP server host (and optional port number) for sending mails.
-// See defaults.inc.php for the option description.
 $config['smtp_host'] = '{{ roundcube_smtp_host }}';
 
-// SMTP username (if required) if you use %u as the username Roundcube
-// will use the current username for login
+// SMTP username (if required) if you use %u as the username Roundcube will use the current username for login
 $config['smtp_user'] = '{{ roundcube_smtp_user }}';
 
-// SMTP password (if required) if you use %p as the password Roundcube
-// will use the current user's password for login
+// SMTP password (if required) if you use %p as the password Roundcube will use the current user's password for login
 $config['smtp_pass'] = '{{ roundcube_smtp_pass }}';
+
+// $config['smtp_conn_options'] = array(
+//   'ssl'         => array(
+//       'verify_peer'      => false,
+//       'verify_peer_name' => false,
+//   ),
+// );
+
 
 // ----------------------------------
 // SYSTEM
@@ -67,16 +84,19 @@ $config['smtp_pass'] = '{{ roundcube_smtp_pass }}';
 $config['enable_installer'] = {{ (roundcube_enable_installer) | bool | string | lower }};
 {% endif %}
 
-// don't allow these settings to be overridden by the user
-// (disable skin selection)
-$config['dont_override'] = ['skin'];
-
 // provide an URL where a user can get support for this Roundcube installation
 // PLEASE DO NOT LINK TO THE ROUNDCUBE.NET WEBSITE HERE!
 $config['support_url'] = '{{ roundcube_support_url }}';
 
 // Name your service. This is displayed on the login screen and in the window title
 $config['product_name'] = '{{ roundcube_product_name }}';
+
+// don't allow these settings to be overridden by the user
+// (disable skin selection)
+// $config['dont_override'] = ['skin'];
+
+// Skin name: folder from skins/
+$config['skin'] = '{{ roundcube_skin }}';
 
 // Logo image replacement. Specifies location of the image as:
 // - URL relative to the document root of this Roundcube installation
@@ -184,8 +204,13 @@ $config['plugins'] = [
 {% endfor %}
 ];
 
-// Skin name: folder from skins/
-$config['skin'] = '{{ roundcube_skin }}';
+// Set the spell checking engine. Possible values: googie | pspell | enchant | atd
+#$config['spellcheck_engine'] = 'googie';
+#$config['spellcheck_uri'] = 'https://spell.roundcube.net';
+$config['spellcheck_engine'] = 'pspell';
+// Configure as a PHP style hash array: array('en'=>'English', 'de'=>'Deutsch');
+// Leave empty for default set of available language.
+$config['spellcheck_languages'] = NULL;
 
 // the default locale setting (leave empty for auto-detection)
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
@@ -196,3 +221,14 @@ $config['date_format'] = '{{ roundcube_date_format }}';
 
 // save compose message every 300 seconds (5min)
 $config['draft_autosave'] = {{ roundcube_draft_autosave }};
+
+// compose html formatted messages by default
+//  0 - never,
+//  1 - always,
+//  2 - on reply to HTML message,
+//  3 - on forward or reply to HTML message
+//  4 - always, except when replying to plain text message
+$config['htmleditor'] = 2;
+
+// Session Lifetime from 10 minutes to 1440 minutes eq. 1 day
+$config['session_lifetime'] = 1440;

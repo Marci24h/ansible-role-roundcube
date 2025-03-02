@@ -1,6 +1,6 @@
 ---
-
 - name: "Copy plugin directory of {{ item }}"
+  tags: roundcube,roundcube-plugins,roundcube-extra-plugins
   ansible.builtin.copy:
     src: "roundcube/extra-plugins/{{ item }}"
     dest: "{{ roundcube_working_dir }}/current/plugins/"

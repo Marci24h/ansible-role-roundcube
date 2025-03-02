@@ -1,11 +1,11 @@
 ---
-roundcube_repo: https://github.com/roundcube/roundcubemail
 roundcube_version: 1.6.10
 roundcube_domain: mail.systemli.org
 roundcube_username_domain: systemli.org
 roundcube_product_name: Systemli Webmail
 roundcube_support_url: https://www.systemli.org/kontakt.html
-roundcube_user: roundcube
+#roundcube_user: roundcube
+roundcube_user: www-data
 roundcube_group: roundcube
 roundcube_user_shell: /bin/false
 roundcube_user_home: "/var/www/{{ roundcube_domain }}"
@@ -15,17 +15,17 @@ roundcube_mysql_user: roundcube
 roundcube_mysql_password: ""
 roundcube_mysql_db: roundcubemail
 roundcube_imap_host: "ssl://{{ roundcube_domain }}:993"
-roundcube_skin: elastic
 roundcube_smtp_host: "ssl://{{ roundcube_domain }}:465"
 roundcube_smtp_user: "%u"
 roundcube_smtp_pass: "%p"
+roundcube_skin: elastic
 roundcube_identities_level: 1
 roundcube_date_format: d.m.Y
 roundcube_cipher_method: AES-256-CBC
 roundcube_password_charset: UTF-8
 roundcube_sendmail_delay: 4
-roundcube_max_recipients: 250
-roundcube_draft_autosave: 60
+roundcube_max_recipients: 75
+roundcube_draft_autosave: 90
 roundcube_des_key: ""
 
 roundcube_plugins:
@@ -43,27 +43,24 @@ roundcube_plugins:
 # list of additional configs, e.g. for plugins
 roundcube_configs_extra:
   - plugins/enigma/config.inc.php
+  - plugins/managesieve/config.inc.php
 
 # enigma plugin settings
 roundcube_enigma_password_time: 5
 roundcube_enigma_home: "{{ roundcube_working_dir }}/enigma/home"
-roundcube_enigma_open_basedirs:
-  - "/usr/bin/gpg"
-  - "/usr/bin/gpg-agent"
-  - "/usr/bin/gpgconf"
-  - "/usr/local/bin/gpgconf"
-  - "{{ roundcube_enigma_home }}"
+# roundcube_enigma_open_basedirs:
+#   - "/usr/bin/gpg"
+#   - "/usr/bin/gpg-agent"
+#   - "/usr/bin/gpgconf"
+#   - "/usr/local/bin/gpgconf"
+#   - "{{ roundcube_enigma_home }}"
 
 roundcube_dependencies:
-  - php-intl
-  - libmcrypt-dev
-  - php-mysql
-  - php-curl  # rcmcarddav
   - python3-mysqldb
   - git
 
 # carddav
-roundcube_carddav_version: 4.4.2
+roundcube_carddav_version: 5.1.0
 
 # Installer
 roundcube_enable_installer: false

@@ -1,0 +1,19 @@
+# ansible_managed
+# recurring tasks to automatically periodically execute roundcube cleaning tasks
+
+[Unit]
+Description=Roundcube Database cleaning
+Wants=roundcube-cleaning-jobs.timer
+
+[Service]
+Type=oneshot
+WorkingDirectory={{ roundcube_working_dir }}
+#ExecStart=/bin/bash -c "{{ roundcube_working_dir }}/current/bin/cleandb.sh"
+#ExecStart=/bin/bash -c "{{ roundcube_working_dir }}/current/bin/gc.sh"
+
+ExecStart={{ roundcube_working_dir }}/current/bin/cleandb.sh
+ExecStart={{ roundcube_working_dir }}/current/bin/gc.sh
+
+#User={{ roundcube_user }}
+User=roundcube
+Group={{ roundcube_group }}
