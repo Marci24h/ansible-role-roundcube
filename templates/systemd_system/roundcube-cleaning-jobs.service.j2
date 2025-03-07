@@ -14,6 +14,5 @@ WorkingDirectory={{ roundcube_working_dir }}
 ExecStart={{ roundcube_working_dir }}/current/bin/cleandb.sh
 ExecStart={{ roundcube_working_dir }}/current/bin/gc.sh
 
-#User={{ roundcube_user }}
-User=roundcube
+User={{ roundcube_user }}
 Group={{ roundcube_group }}
